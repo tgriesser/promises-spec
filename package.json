@@ -4,21 +4,25 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
+    "lint": "eslint --quiet '**/*.{ts,js}'",
     "start": "ts-node index.js",
     "run": "ts-node index.js",
-    "test": "ts-node index.js"
+    "test": "ts-node index.js",
+    "debug": "node -r ts-node/register/transpile-only --inspect-brk index.js"
   },
   "dependencies": {
+    "@types/bluebird": "^3.5.29",
     "@types/node": "^13.1.6",
+    "@types/when": "^2.4.33",
+    "@typescript-eslint/eslint-plugin": "^2.15.0",
+    "@typescript-eslint/parser": "^2.15.0",
     "bluebird": "^3.7.2",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.9.0",
     "promises-aplus-tests": "^2.1.2",
     "q": "^1.5.1",
     "ts-node": "^8.5.4",
     "typescript": "^3.7.4",
     "when": "^3.7.8"
-  },
-  "devDependencies": {
-    "@types/bluebird": "^3.5.29",
-    "@types/when": "^2.4.33"
   }
 }

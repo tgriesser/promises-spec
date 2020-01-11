@@ -1,12 +1,8 @@
+import { PromiseFn, Deferred, APlusPromise } from "./types";
+
 const promises = require("promises-aplus-tests");
 
-type Deferred = {
-  promise: PromiseLike<any>;
-  resolve: (val) => PromiseLike<any>;
-  reject: (val) => PromiseLike<any>;
-};
-
-export function testClass(P) {
+export function testClass(P: { new (fn: PromiseFn): APlusPromise }) {
   test(() => {
     const dfd = {} as Deferred;
     dfd.promise = new P((resolve, reject) => {
@@ -17,7 +13,7 @@ export function testClass(P) {
   });
 }
 
-export function testFunction(p) {
+export function testFunction(p: (fn: PromiseFn) => APlusPromise): void {
   test(() => {
     const dfd = {} as Deferred;
     dfd.promise = p((resolve, reject) => {
@@ -30,17 +26,17 @@ export function testFunction(p) {
 
 function test(deferred: () => Deferred) {
   const adapter = {
-    resolve(value) {
+    resolve(value: any) {
       const dfd = deferred();
       dfd.resolve(value);
       return dfd.promise;
     },
-    reject(err) {
+    reject(err: any) {
       const dfd = deferred();
       dfd.reject(err);
       return dfd.promise;
     },
     deferred
   };
-  promises(adapter, err => {});
+  promises(adapter, { bail: true, timeout: 1000 });
 }
