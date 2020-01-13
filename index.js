@@ -13,7 +13,7 @@ const test = require("./templates/util/test");
  * and in 2013, they were still considered controversial in Node compared to using callbacks?
  *
  * The "Promises A+" specification, an interoperable standard for working with Promises in JavaScript,
- * is actually quite small. It only defines the semantics around a single function, "then"
+ * is actually quite small. It only defines the behavior of a single function, "then"
  *
  * https://promisesaplus.com/
  *

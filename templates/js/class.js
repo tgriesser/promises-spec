@@ -27,6 +27,4 @@ class MyPromise {
   }
 }
 
-// test.simpleSuite(MyPromise)
-
 test.testClass(MyPromise);

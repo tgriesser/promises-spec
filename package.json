@@ -5,9 +5,9 @@
   "license": "MIT",
   "scripts": {
     "lint": "eslint --quiet '**/*.{ts,js}'",
-    "start": "ts-node index.js",
-    "run": "ts-node index.js",
-    "test": "ts-node index.js",
+    "start": "node -r ts-node/register/transpile-only index.js",
+    "run": "node -r ts-node/register/transpile-only index.js",
+    "test": "node -r ts-node/register/transpile-only index.js",
     "debug": "node -r ts-node/register/transpile-only --inspect-brk index.js"
   },
   "dependencies": {

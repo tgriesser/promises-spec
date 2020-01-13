@@ -36,9 +36,7 @@ function myPromise(fn: PromiseFn): APlusPromise {
         deferred.resolve(y);
       }
     } catch (e) {
-      if (!run) {
-        deferred.reject(e);
-      }
+      deferred.reject(e);
     }
   }
 
