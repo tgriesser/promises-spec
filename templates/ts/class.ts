@@ -1,4 +1,9 @@
-import { PromiseFn, Deferred, OnResolveFn, OnRejectFn } from "../util/types";
+import {
+  PromiseFn,
+  Deferred,
+  OnFulfilledFn,
+  OnRejectedFn
+} from "../util/types";
 import { testClass } from "../util/test";
 
 class MyPromise {
@@ -14,7 +19,7 @@ class MyPromise {
     // TODO
   };
 
-  then = (onFulfilled: OnResolveFn, onRejected: OnRejectFn) => {
+  then = (onFulfilled?: OnFulfilledFn, onRejected?: OnRejectedFn) => {
     let deferred = {} as Deferred;
     deferred.promise = new MyPromise((resolve, reject) => {
       deferred.resolve = resolve;

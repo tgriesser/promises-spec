@@ -1,5 +1,6 @@
 import { PromiseFn, Deferred, APlusPromise } from "./types";
 
+// @ts-ignore
 const promises = require("promises-aplus-tests");
 
 export function testClass(P: { new (fn: PromiseFn): APlusPromise }) {

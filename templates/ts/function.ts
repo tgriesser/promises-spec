@@ -3,8 +3,8 @@ import {
   Deferred,
   PromiseFn,
   APlusPromise,
-  OnResolveFn,
-  OnRejectFn
+  OnFulfilledFn,
+  OnRejectedFn
 } from "../util/types";
 
 function myPromise(fn: PromiseFn): APlusPromise {
@@ -19,7 +19,7 @@ function myPromise(fn: PromiseFn): APlusPromise {
   fn(resolve, reject);
 
   return {
-    then(onFulfilled: OnResolveFn, onRejected: OnRejectFn) {
+    then(onFulfilled?: OnFulfilledFn, onRejected?: OnRejectedFn) {
       let deferred = {} as Deferred;
       deferred.promise = myPromise((resolve, reject) => {
         deferred.resolve = resolve;

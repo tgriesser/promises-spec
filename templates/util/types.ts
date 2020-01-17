@@ -15,10 +15,10 @@ export type PromiseFn = (
   reject: (val: unknown) => void
 ) => void;
 
-export type OnResolveFn = () => any;
+export type OnFulfilledFn = (val?: any) => any;
 
-export type OnRejectFn = () => any;
+export type OnRejectedFn = (val?: any) => any;
 
 export interface APlusPromise {
-  then: (onResolveFn: OnResolveFn, onRejectFn: OnRejectFn) => any;
+  then: (onFulfilledFn?: OnFulfilledFn, onRejected?: OnRejectedFn) => any;
 }

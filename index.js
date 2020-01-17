@@ -1,9 +1,10 @@
 require("ts-node/register/transpile-only");
 
+const test = require("./templates/util/test");
+
 const Q = require("q");
 const when = require("when");
 const Bluebird = require("bluebird");
-const test = require("./templates/util/test");
 
 /**
  * Promises A+
@@ -51,11 +52,8 @@ const test = require("./templates/util/test");
  * you'd like to work in and proceed there.
  */
 
-require("./templates/ts/function");
+// require("./templates/ts/function");
 // require("./templates/js/function");
 
 // require("./templates/ts/class");
 // require("./templates/js/class");
-
-// require("./solutions/classSolution");
-// require("./solutions/functionSolution");
