@@ -7,27 +7,24 @@
 export type Deferred = {
   promise: APlusPromise;
   resolve: (val: unknown) => void;
-  reject: (val: unknown) => void;
+  reject: (reason: unknown) => void;
 };
 
 export type PromiseFn = (
   resolve: (val: unknown) => void,
-  reject: (val: unknown) => void
+  reject: (reason: unknown) => void
 ) => void;
 
-export type OnFulfilledFn = (val?: any) => any;
+export type OnFulfilledFn = ((val?: any) => any) | null;
 
-export type OnRejectedFn = (val?: any) => any;
+export type OnRejectedFn = ((reason?: any) => any) | null;
 
 export interface APlusPromise {
-  then: (
-    onFulfilledFn?: OnFulfilledFn | null,
-    onRejected?: OnRejectedFn | null
-  ) => any;
+  then: (onFulfilledFn?: OnFulfilledFn, onRejected?: OnRejectedFn) => any;
 }
 
 export type InternalTestAdapter = {
   deferred: () => Deferred;
   resolve: (val: unknown) => APlusPromise;
-  reject: (val: unknown) => APlusPromise;
+  reject: (reason: unknown) => APlusPromise;
 };

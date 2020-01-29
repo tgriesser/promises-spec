@@ -1,4 +1,4 @@
-import { makeAdapter } from "./_deferred";
+import { makeTestAdapter } from "./_deferred";
 const suite = require("promises-aplus-tests");
 
-suite(makeAdapter(), { bail: true, timeout: 100 });
+suite(makeTestAdapter(), { timeout: 500 });

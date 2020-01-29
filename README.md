@@ -23,8 +23,9 @@ If you're not sure, we'd recommend using a function because the implementation w
 be smaller/simpler but won't hold it against you if you'd feel more comfortable using a class.
 We use a mix of classes & functions as it makes sense in the Cypress Services codebase.
 
-Go to ./templates/{js,ts}/{function,class} and comment out the export, and then let's begin to implement the spec
-
-Go to the
+Go to ./templates/{js,ts}/{function,class} and comment out the export line, and then let's begin
+to implement the spec
 
 ## Step 5:
+
+Run `yarn test` / `npm run test` to get started

@@ -6,9 +6,10 @@
   "scripts": {
     "lint": "eslint --quiet '**/*.{ts,js}'",
     "start": "node -r ts-node/register/transpile-only index.js",
-    "test": "node -r ts-node/register/transpile-only node_modules/.bin/jest basicSuite --watch --runInBand",
-    "test:aplus": "node -r ts-node/register/transpile-only test/aPlus.ts",
-    "debug": "node -r ts-node/register/transpile-only --inspect-brk index.js"
+    "test": "node --inspect -r ts-node/register/transpile-only node_modules/.bin/jest --no-cache --watch --runInBand part1",
+    "test2": "node  --inspect -r ts-node/register/transpile-only node_modules/.bin/jest --no-cache --watch --runInBand part2",
+    "aplus": "node -r ts-node/register/transpile-only test/aPlus.ts",
+    "aplus:debug": "node -r ts-node/register/transpile-only --inspect-brk test/aPlus.ts"
   },
   "dependencies": {
     "@types/bluebird": "^3.5.29",
