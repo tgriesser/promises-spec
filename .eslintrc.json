@@ -3,7 +3,8 @@
   "plugins": ["@typescript-eslint"],
   "env": {
     "es6": true,
-    "node": true
+    "node": true,
+    "mocha": true
   },
   "extends": [
     "eslint:recommended",
@@ -16,6 +17,7 @@
     "@typescript-eslint/explicit-function-return-type": "off",
     "@typescript-eslint/no-explicit-any": "off",
     "@typescript-eslint/no-use-before-define": "off",
-    "@typescript-eslint/no-var-requires": "off"
+    "@typescript-eslint/no-var-requires": "off",
+    "@typescript-eslint/ban-ts-ignore": "off"
   }
 }

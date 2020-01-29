@@ -1,8 +1,10 @@
 {
   "compilerOptions": {
     "lib": ["es2017"],
-    "strict": true,
+    "target": "ESNext",
+    "allowJs": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "noEmit": true
   }
 }

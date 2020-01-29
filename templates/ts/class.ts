@@ -4,7 +4,6 @@ import {
   OnFulfilledFn,
   OnRejectedFn
 } from "../util/types";
-import { testClass } from "../util/test";
 
 class MyPromise {
   constructor(fn: PromiseFn) {
@@ -30,4 +29,4 @@ class MyPromise {
   };
 }
 
-testClass(MyPromise);
+// export { MyPromise };
