@@ -1,5 +1,3 @@
-const test = require("../util/test");
-
 class MyPromise {
   constructor(fn) {
     this.then = this.then.bind(this);
@@ -27,4 +25,6 @@ class MyPromise {
   }
 }
 
-test.testClass(MyPromise);
+module.exports = {};
+
+// module.exports.MyPromise = MyPromise;

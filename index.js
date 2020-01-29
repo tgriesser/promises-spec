@@ -1,10 +1,6 @@
 require("ts-node/register/transpile-only");
-
-const test = require("./templates/util/test");
-
-const Q = require("q");
-const when = require("when");
-const Bluebird = require("bluebird");
+const suite = require("promises-aplus-tests");
+const { makeTestAdapter } = require("./test/_deferred");
 
 /**
  * Promises A+
@@ -23,37 +19,41 @@ const Bluebird = require("bluebird");
  * allotted time.
  *
  * Here are a few examples of existing promise libraries running against the test suite,
- * uncomment them one at a time and run run `yarn test` or `npm run test` to see then in action.
+ * uncomment run `yarn run` to see them in action
  */
 
-// test.testClass(Bluebird);
+testClass(require("bluebird"));
 
-// test.testFunction(when.promise);
+// testClass(Promise);
 
-// test.testClass(Promise);
+// testFunction(require("when").promise);
 
-// test.testFunction(Q.Promise);
+// testFunction(require("q").Promise);
 
-/**
- * Now we're going to attempt to implement the spec for ourselves.
- *
- * Before getting started, take a minute to read through the spec a bit, it's a quick read. We'll
- * look to break it down and implement it step-by-step
- *
- * https://promisesaplus.com/
- *
- * You can implement this in whatever style you'd like, using functions or using classes, TypeScript
- * or JavaScript. If you're not sure, we'd recommend  using functions because the implementation will
- * be smaller/simpler but won't hold it against you if you'd feel more comfortable using a class.
- *
- * We use a mix of classes & functions as it makes sense in the Cypress Services codebase.
- *
- * We've gotten you started with a little boilerplate if you'd like - comment out one of the files
- * you'd like to work in and proceed there.
- */
+function testClass(PromiseClass) {
+  suite(
+    makeTestAdapter(() => {
+      const dfd = {};
+      dfd.promise = new PromiseClass((resolve, reject) => {
+        dfd.resolve = resolve;
+        dfd.reject = reject;
+      });
+      return dfd;
+    }),
+    { bail: true }
+  );
+}
 
-// require("./templates/ts/function");
-// require("./templates/js/function");
-
-// require("./templates/ts/class");
-// require("./templates/js/class");
+function testFunction(promiseFn) {
+  suite(
+    makeTestAdapter(() => {
+      const dfd = {};
+      dfd.promise = promiseFn((resolve, reject) => {
+        dfd.resolve = resolve;
+        dfd.reject = reject;
+      });
+      return dfd;
+    }),
+    { bail: true }
+  );
+}

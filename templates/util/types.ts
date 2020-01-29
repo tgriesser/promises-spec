@@ -20,5 +20,14 @@ export type OnFulfilledFn = (val?: any) => any;
 export type OnRejectedFn = (val?: any) => any;
 
 export interface APlusPromise {
-  then: (onFulfilledFn?: OnFulfilledFn, onRejected?: OnRejectedFn) => any;
+  then: (
+    onFulfilledFn?: OnFulfilledFn | null,
+    onRejected?: OnRejectedFn | null
+  ) => any;
 }
+
+export type InternalTestAdapter = {
+  deferred: () => Deferred;
+  resolve: (val: unknown) => APlusPromise;
+  reject: (val: unknown) => APlusPromise;
+};

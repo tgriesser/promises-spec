@@ -6,8 +6,8 @@
   "scripts": {
     "lint": "eslint --quiet '**/*.{ts,js}'",
     "start": "node -r ts-node/register/transpile-only index.js",
-    "run": "node -r ts-node/register/transpile-only index.js",
-    "test": "node -r ts-node/register/transpile-only index.js",
+    "test": "node -r ts-node/register/transpile-only node_modules/.bin/jest basicSuite --watch --runInBand",
+    "test:aplus": "node -r ts-node/register/transpile-only test/aPlus.ts",
     "debug": "node -r ts-node/register/transpile-only --inspect-brk index.js"
   },
   "dependencies": {
@@ -24,5 +24,10 @@
     "ts-node": "^8.5.4",
     "typescript": "^3.7.4",
     "when": "^3.7.8"
+  },
+  "devDependencies": {
+    "@types/jest": "^25.1.0",
+    "jest": "^25.1.0",
+    "ts-jest": "^25.0.0"
   }
 }

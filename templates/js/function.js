@@ -1,5 +1,3 @@
-const test = require("../util/test");
-
 function myPromise(fn) {
   function resolve(val) {
     // TODO
@@ -24,4 +22,6 @@ function myPromise(fn) {
   };
 }
 
-test.testFunction(myPromise);
+module.exports = {};
+
+// module.exports.myPromise = myPromise;

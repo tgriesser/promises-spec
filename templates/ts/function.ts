@@ -1,4 +1,3 @@
-import * as test from "../util/test";
 import {
   Deferred,
   PromiseFn,
@@ -31,4 +30,4 @@ function myPromise(fn: PromiseFn): APlusPromise {
   };
 }
 
-test.testFunction(myPromise);
+// export { myPromise };
