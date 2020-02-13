@@ -1,3 +1,7 @@
+// new Promise((resolve, reject) => {   -- the "fn" below is the one passed to "myPromise"
+//
+// })
+
 function myPromise(fn) {
   function resolve(val) {
     // TODO
@@ -24,4 +28,4 @@ function myPromise(fn) {
 
 module.exports = {};
 
-// module.exports.myPromise = myPromise;
+module.exports.myPromise = myPromise;

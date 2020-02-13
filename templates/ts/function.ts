@@ -6,6 +6,10 @@ import {
   OnRejectedFn
 } from "../util/types";
 
+// new Promise((resolve, reject) => {   -- the "fn" below is the one passed to "myPromise"
+//
+// })
+
 function myPromise(fn: PromiseFn): APlusPromise {
   function resolve(val: any) {
     // TODO
