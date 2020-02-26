@@ -92,7 +92,7 @@ describe("promise.then(onFulfilled, onRejected)", function() {
         rejectFn = reject;
       });
       const onRejected = jest.fn();
-      prom.then(onRejected);
+      prom.then(null, onRejected);
       return delay().then(() => {
         expect(onRejected).not.toBeCalled();
         rejectFn(ERR);
@@ -107,7 +107,7 @@ describe("promise.then(onFulfilled, onRejected)", function() {
       });
       rejectFn(ERR);
       rejectFn(ERR);
-      prom.then(onRejected);
+      prom.then(null, onRejected);
       return delay().then(() => {
         expect(onRejected).toBeCalledTimes(1);
         expect(onRejected).toBeCalledWith(ERR);
@@ -124,7 +124,7 @@ describe("promise.then(onFulfilled, onRejected)", function() {
       });
       rejectFn(ERR);
       resolveFn(1);
-      prom.then(onRejected);
+      prom.then(null, onRejected);
       return delay().then(() => {
         expect(onRejected).toBeCalledTimes(1);
         expect(onRejected).toBeCalledWith(ERR);

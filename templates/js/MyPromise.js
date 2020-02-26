@@ -16,6 +16,4 @@ class MyPromise {
   }
 }
 
-// module.exports = {};
-
-// module.exports.MyPromise = MyPromise;
+module.exports = MyPromise;
