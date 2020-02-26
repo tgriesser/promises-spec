@@ -1,53 +1,72 @@
-import { Deferred } from "../templates/util/types";
-import { getDeferred } from "./_deferred";
+// import MyPromise from '../templates/js/MyPromise'
+import { MyPromise } from "../templates/ts/MyPromise";
 
 const ERR = new Error("ERR");
 
 describe("promise.then(onFulfilled, onRejected)", function() {
-  let dfd: Deferred;
-  beforeEach(() => {
-    dfd = getDeferred();
-  });
-
   it("2.1.1 - 2.1.3", () => {
     // Internal state rules, cannot be tested directly, only indirectly
     expect(1).toEqual(1);
   });
 
   it("2.2.1 - Both onFulfilled and onRejected are optional arguments", () => {
-    dfd.promise.then();
-    dfd.resolve({});
+    let toResolve;
+    const prom = new MyPromise((resolve) => {
+      toResolve = resolve;
+    });
+    prom.then();
+    toResolve();
   });
 
   describe("2.2.2: If onFulfilled is a function:", () => {
     it("2.2.2.1: must be called after promise is fulfilled, with promise’s value as its first argument.", () => {
       const onFulfilled = jest.fn();
-      dfd.promise.then(onFulfilled);
-      dfd.resolve(1);
+      const prom = new MyPromise((resolve) => {
+        resolve(1);
+      });
+      prom.then(onFulfilled);
       return delay().then(() => {
         expect(onFulfilled).toBeCalledWith(1);
       });
     });
 
     it("2.2.2.2: must not be called before promise is fulfilled.", () => {
+      let resolveFn;
+      const prom = new MyPromise((resolve) => {
+        resolveFn = resolve;
+      });
       const onFulfilled = jest.fn();
-      dfd.promise.then(onFulfilled);
+      prom.then(onFulfilled);
       return delay().then(() => {
         expect(onFulfilled).not.toBeCalled();
-        dfd.resolve(1);
+        resolveFn(1);
       });
     });
 
     it("2.2.2.3: must not be called more than once.", () => {
-      expect.assertions(2);
-
       const onFulfilled = jest.fn();
+      let resolveFn;
+      const prom = new MyPromise((resolve) => {
+        resolveFn = resolve;
+      });
+      resolveFn(1);
+      resolveFn(2);
+      prom.then(onFulfilled);
+      return delay().then(() => {
+        expect(onFulfilled).toBeCalledTimes(1);
+        expect(onFulfilled).toBeCalledWith(1);
+      });
+    });
 
-      dfd.resolve(1);
-      dfd.resolve(2);
-
-      dfd.promise.then(onFulfilled);
-
+    it("2.2.2.3: must not be called more than once (resolve after .then).", () => {
+      const onFulfilled = jest.fn();
+      let resolveFn;
+      const prom = new MyPromise((resolve) => {
+        resolveFn = resolve;
+      });
+      prom.then(onFulfilled);
+      resolveFn(1);
+      resolveFn(2);
       return delay().then(() => {
         expect(onFulfilled).toBeCalledTimes(1);
         expect(onFulfilled).toBeCalledWith(1);
@@ -55,34 +74,57 @@ describe("promise.then(onFulfilled, onRejected)", function() {
     });
   });
 
-  describe("2.2.3: If onRejected is a function:", () => {
-    it("2.2.3.1: must be called after promise is rejected, with promise’s reason as its first argument.", () => {
+  describe("2.2.2: If onRejected is a function:", () => {
+    it("2.2.2.1: must be called after promise is fulfilled, with promise’s value as its first argument.", () => {
       const onRejected = jest.fn();
-      dfd.promise.then(null, onRejected);
-      dfd.reject(ERR);
+      const prom = new MyPromise((resolve, reject) => {
+        reject(ERR);
+      });
+      prom.then(null, onRejected);
       return delay().then(() => {
         expect(onRejected).toBeCalledWith(ERR);
       });
     });
 
-    it("2.2.3.2: must not be called before promise is rejected.", () => {
+    it("2.2.2.2: must not be called before promise is fulfilled.", () => {
+      let rejectFn;
+      const prom = new MyPromise((resolve, reject) => {
+        rejectFn = reject;
+      });
       const onRejected = jest.fn();
-      dfd.promise.then(null, onRejected);
+      prom.then(onRejected);
       return delay().then(() => {
         expect(onRejected).not.toBeCalled();
-        dfd.reject(ERR);
+        rejectFn(ERR);
       });
     });
 
-    it("2.2.3.3: must not be called more than once.", () => {
-      expect.assertions(2);
-
+    it("2.2.2.3: must not be called more than once.", () => {
       const onRejected = jest.fn();
-      dfd.promise.then(null, onRejected);
+      let rejectFn;
+      const prom = new MyPromise((resolve, reject) => {
+        rejectFn = reject;
+      });
+      rejectFn(ERR);
+      rejectFn(ERR);
+      prom.then(onRejected);
+      return delay().then(() => {
+        expect(onRejected).toBeCalledTimes(1);
+        expect(onRejected).toBeCalledWith(ERR);
+      });
+    });
 
-      dfd.reject(ERR);
-      dfd.reject(2);
-
+    it("2.2.2.3: must not be called more than once (reject, resolve).", () => {
+      const onRejected = jest.fn();
+      let rejectFn;
+      let resolveFn;
+      const prom = new MyPromise((resolve, reject) => {
+        resolveFn = resolve;
+        rejectFn = reject;
+      });
+      rejectFn(ERR);
+      resolveFn(1);
+      prom.then(onRejected);
       return delay().then(() => {
         expect(onRejected).toBeCalledTimes(1);
         expect(onRejected).toBeCalledWith(ERR);
@@ -93,8 +135,10 @@ describe("promise.then(onFulfilled, onRejected)", function() {
   describe("2.2.4: onFulfilled or onRejected must not be called until the execution context stack contains only platform code.", () => {
     it("onFulfilled", () => {
       const onFulfilled = jest.fn();
-      dfd.promise.then(onFulfilled);
-      dfd.resolve(1);
+      const prom = new MyPromise((resolve) => {
+        resolve(1);
+      });
+      prom.then(onFulfilled);
       expect(onFulfilled).toBeCalledTimes(0);
       return delay().then(() => {
         expect(onFulfilled).toBeCalledTimes(1);
@@ -104,8 +148,10 @@ describe("promise.then(onFulfilled, onRejected)", function() {
 
     it("onRejected", () => {
       const onRejected = jest.fn();
-      dfd.promise.then(null, onRejected);
-      dfd.reject(ERR);
+      const prom = new MyPromise((resolve, reject) => {
+        reject(ERR);
+      });
+      prom.then(null, onRejected);
       expect(onRejected).toBeCalledTimes(0);
       return delay().then(() => {
         expect(onRejected).toBeCalledTimes(1);
@@ -120,8 +166,12 @@ describe("promise.then(onFulfilled, onRejected)", function() {
       function onFulfilled() {
         expect(this).toBeUndefined();
       }
-      dfd.promise.then(onFulfilled);
-      dfd.resolve(1);
+      let resolveFn;
+      const prom = new MyPromise((resolve) => {
+        resolveFn = resolve;
+      });
+      prom.then(onFulfilled);
+      resolveFn(1);
       return delay();
     });
 
@@ -130,8 +180,12 @@ describe("promise.then(onFulfilled, onRejected)", function() {
       function onRejected() {
         expect(this).toBeUndefined();
       }
-      dfd.promise.then(null, onRejected);
-      dfd.reject(ERR);
+      let rejectFn;
+      const prom = new MyPromise((resolve, reject) => {
+        rejectFn = reject;
+      });
+      prom.then(null, onRejected);
+      rejectFn(ERR);
       return delay();
     });
   });
@@ -139,36 +193,44 @@ describe("promise.then(onFulfilled, onRejected)", function() {
   describe("2.2.6: then may be called multiple times on the same promise.", () => {
     describe("2.2.6.1: onFulfilled", () => {
       it("all respective onFulfilled callbacks must execute in the order of their originating calls to then.", () => {
+        let resolveFn;
+        const prom = new MyPromise((resolve) => {
+          resolveFn = resolve;
+        });
         const calls = [];
-        dfd.promise.then(function fn1() {
+        prom.then(function fn1() {
           calls.push("A");
         });
-        dfd.promise.then(function fn2() {
+        prom.then(function fn2() {
           calls.push("B");
         });
-        dfd.promise.then(function fn3() {
+        prom.then(function fn3() {
           calls.push("C");
         });
-        dfd.resolve(1);
+        resolveFn(1);
         return delay().then(() => {
           expect(calls).toEqual(["A", "B", "C"]);
         });
       });
     });
 
-    describe("2.2.6.2: onFulfilled", () => {
+    describe("2.2.6.2: onRejected", () => {
       it("all respective onRejected callbacks must execute in the order of their originating calls to then.", () => {
         const calls = [];
-        dfd.promise.then(null, function fn1() {
+        let rejectFn;
+        const prom = new MyPromise((resolve, reject) => {
+          rejectFn = reject;
+        });
+        prom.then(null, function fn1() {
           calls.push("A");
         });
-        dfd.promise.then(null, function fn2() {
+        prom.then(null, function fn2() {
           calls.push("B");
         });
-        dfd.promise.then(null, function fn3() {
+        prom.then(null, function fn3() {
           calls.push("C");
         });
-        dfd.reject(ERR);
+        rejectFn(ERR);
         return delay().then(() => {
           expect(calls).toEqual(["A", "B", "C"]);
         });
