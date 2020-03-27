@@ -6,8 +6,7 @@
   "scripts": {
     "lint": "eslint --quiet '**/*.{ts,js}'",
     "start": "node -r ts-node/register/transpile-only index.js",
-    "test": "node --inspect -r ts-node/register/transpile-only node_modules/.bin/jest --no-cache --watch --runInBand part1",
-    "test2": "node  --inspect -r ts-node/register/transpile-only node_modules/.bin/jest --no-cache --watch --runInBand part2",
+    "test": "node --inspect -r ts-node/register/transpile-only node_modules/.bin/jest --no-cache --watch --runInBand MyPromise.spec",
     "aplus": "node -r ts-node/register/transpile-only test/aPlus.ts",
     "aplus:debug": "node -r ts-node/register/transpile-only --inspect-brk test/aPlus.ts"
   },

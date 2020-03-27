@@ -15,40 +15,18 @@ const { makeTestAdapter } = require("./test/_deferred");
  * https://promisesaplus.com/
  *
  * In this exercise we're going to look at the spec and try to work through implementing our own
- * simple Promise implementation which passes as much of the test suite as we can get through in the
- * allotted time.
- *
- * Here are a few examples of existing promise libraries running against the test suite,
- * uncomment run `yarn run` to see them in action
+ * simple Promise implementation which passes some of the requirements of a Promise implementation.
  */
 
 testClass(require("bluebird"));
 
 // testClass(Promise);
 
-// testFunction(require("when").promise);
-
-// testFunction(require("q").Promise);
-
 function testClass(PromiseClass) {
   suite(
     makeTestAdapter(() => {
       const dfd = {};
       dfd.promise = new PromiseClass((resolve, reject) => {
-        dfd.resolve = resolve;
-        dfd.reject = reject;
-      });
-      return dfd;
-    }),
-    { bail: true }
-  );
-}
-
-function testFunction(promiseFn) {
-  suite(
-    makeTestAdapter(() => {
-      const dfd = {};
-      dfd.promise = promiseFn((resolve, reject) => {
         dfd.resolve = resolve;
         dfd.reject = reject;
       });

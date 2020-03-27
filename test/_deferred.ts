@@ -1,17 +1,6 @@
-import { Deferred } from "../templates/util/types";
-import { MyPromise } from "../templates/ts/MyPromise";
-// import MyPromise from "../templates/js/MyPromise";
+import { deferred } from "../src/util/deferred";
 
-export function getDeferred(): Deferred {
-  const dfd = {} as Deferred;
-  dfd.promise = new MyPromise((resolve: any, reject: any) => {
-    dfd.resolve = resolve;
-    dfd.reject = reject;
-  });
-  return dfd;
-}
-
-export function makeTestAdapter(fn = getDeferred) {
+export function makeTestAdapter(fn = deferred) {
   return {
     resolve(value: any) {
       const dfd = fn();
